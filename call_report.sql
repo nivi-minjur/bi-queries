@@ -1,6 +1,6 @@
 -- A report of all calls/call attempts that occurred in the prior month, including date/time stamp, category of call, inbound/outbound and account identifier. To be provided to for QA review purposes unless direct access is agreed upon. Separate reports may be required based on vendors.
 
--- Only agent calls required
+-- Only customer support agent calls required
 
 WITH uuid_lookup as (SELECT 
 call_id, user_phone_fix, consumer_uuid, custom_imprint_uuid, ticket_id
