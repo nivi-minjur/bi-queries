@@ -26,12 +26,14 @@ select 'Email Response Time' as statistic, null as num
 
 union all
 
-select 'Application System Uptime' as statistic, .99226 as num
+union all
+
+select 'Application System Uptime' as statistic, .99918 as num
 
 union all
 
-select 'Payment Processing' as statistic, .99592 as num
+select 'Payment Processing' as statistic, .9903 as num
 
 union all
 
-select 'Authorization Availability Linked' as statistic, .9993 as num;
+select 'Authorization Availability Linked' as statistic, 1.0 as num;
