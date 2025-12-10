@@ -1,5 +1,5 @@
 -- A monthly report on all billing and payment disputes received in the prior month, to include date of dispute, account identifier and volume of disputes.
-
+WITH uuid_lookup as (SELECT 
         call_id,
         user_phone_fix,
         consumer_uuid,
