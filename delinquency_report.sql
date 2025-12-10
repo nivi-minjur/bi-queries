@@ -1,3 +1,5 @@
+--Client shall provide report each month outlining the key portfolio indicators such as total number of card accounts, 
+-- total receivables by status, number and dollar amount by status, fraud summary statistics, charge-off statistics, and disputes FBT Summary MM/DD/YYYY
 WITH card_reissue as (
  SELECT
         DATEDIFF(DAY, A.LAST_INGEST_AT_EST, B.CREATED_AT_EST) AS DATE_DIFF,
