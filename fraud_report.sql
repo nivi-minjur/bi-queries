@@ -1,5 +1,5 @@
--- A monthly report on all billing and payment disputes received in the prior month, to include date of dispute, account identifier and volume of disputes.
-
+-- A monthly report on all CBH fraud cases received in the prior month, to include date of fraud case, account identifier and volume of fraud cases.
+WITH uuid_lookup as (SELECT 
         call_id,
         user_phone_fix,
         consumer_uuid,
@@ -37,11 +37,11 @@
                 edw_prd.marts.mrt_public__dim_profiles
         ) c on a.user_phone_fix = c.phone
 ),
-disputes as (
+fraud as (
     select
         pa.product_account_uuid,
         calls.custom_imprint_uuid,
-        coalesce(ticket_created_at_est, call_created_at_est) as dispute_timestamp,
+        coalesce(ticket_created_at_est, call_created_at_est) as fraud_timestamp,
         calls.custom_reason_code,
         calls.ticket_id,
         case
@@ -76,16 +76,16 @@ disputes as (
         and ta.ticket_id is null
         and custom_reason_code <> 'general__testing'
         and custom_reason_code <> 'fraud__bulk_document_request'
-        and date_trunc('day', dispute_timestamp) >= '2025-10-10'
-        and month(date_trunc('month', dispute_timestamp)) = month(date_trunc('month', current_date())) - 1
+        and date_trunc('day', fraud_timestamp) >= '2025-10-10'
+        and month(date_trunc('month', fraud_timestamp)) = month(date_trunc('month', current_date())) - 1
     order by
-        dispute_timestamp
+        fraud_timestamp
 )
 select
     product_account_uuid,
     custom_imprint_uuid,
-    dispute_timestamp,
+    fraud_timestamp,
     custom_reason_code,
     merchant_name
 from
-    disputes;
+    fraud;
