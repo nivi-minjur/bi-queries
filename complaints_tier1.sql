@@ -1,5 +1,7 @@
 -- Level 1 (Non-Executive Complaint) - Customer expresses dissatisfaction or states there is an issue. Customer wants to and/or did speak with a supervisor.  Report to include details of customer complaints, resolution and total volume.
 
+-- Level 1 (Non-Executive Complaint) - Customer expresses dissatisfaction or states there is an issue. Customer wants to and/or did speak with a supervisor.  Report to include details of customer complaints, resolution and total volume.
+
 with ZendeskComplaintsTemp as (
 SELECT a.*,
 case
@@ -51,10 +53,10 @@ qualify row_number() over (partition by ticket_id order by updated_at desc) = 1
 where a.solve_date_1 is null and c.solve_date_1 is not null
 qualify row_number() over (partition by a.ticket_id order by c.solve_date_1 desc) = 1)
 
-SELECT a.custom_issue_summary, a.custom_complaint_summary, a.custom_complaint_resolution, coalesce(a.solve_date_1,solve_date_2) as solve_date
+SELECT a.custom_imprint_uuid, a.custom_issue_summary, a.custom_complaint_summary, a.custom_complaint_resolution, coalesce(a.solve_date_1,solve_date_2) as solve_date
 FROM ZendeskComplaintsTemp a
 LEFT JOIN ZendeskComplaintsSolve b on a.ticket_id = b.ticket_id
-where a.brand_id in  ('40954903794580', '36869591739412', '42879080717716') 
+where a.brand_id in  ('40954903794580', '36869591739412', '42879080717716', '36869591739412') 
 and month(date_trunc('month', solve_date)) = month(date_trunc('month', current_date())) - 1
 and date_trunc('day', solve_date) >= '2025-10-10'
 and a.custom_issue_summary <> 'Test'
